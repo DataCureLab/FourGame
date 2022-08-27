@@ -2,12 +2,6 @@ package com.datacure;
 
 import java.util.Arrays;
 
-class GameIncorrectIntroduce extends Exception
-{
-    public GameIncorrectIntroduce(String exception) {
-        super(exception);
-    }
-}
 public class GamePlay {
     private static final int HEIGHT = 7;
     private static final int WIDTH = 6;
