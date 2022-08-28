@@ -1,7 +1,5 @@
 package com.datacure.fourGame.utils;
 
-import com.datacure.fourGame.Disk;
-
 public class PlayerImp implements Player {
     private String name;
     private Disk disk;

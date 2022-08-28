@@ -1,12 +1,15 @@
 package com.datacure.fourGame;
 
+import com.datacure.fourGame.gameplay.RowIsFull;
+import com.datacure.fourGame.utils.Disk;
+import com.datacure.fourGame.gameplay.GameIncorrectIntroduce;
+import com.datacure.fourGame.gameplay.GamePlay;
 import com.datacure.fourGame.utils.PlayerChanger;
 import com.datacure.fourGame.utils.Player;
 import com.datacure.fourGame.utils.PlayerImp;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.NonBlockingReader;
-
 import java.io.IOException;
 
 public class Game {
@@ -33,21 +36,41 @@ public class Game {
     public void run(NonBlockingReader reader) throws IOException, GameIncorrectIntroduce {
         int key = 0;
         init();
+        Player player = playerChanger.change();
+
         while (key != ASCII_ESC) {
-            Player player = playerChanger.change();
             System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
             System.out.println();
             key = reader.read();
 
             if (key >= ASCII_1 && key <= ASCII_1+PLAY_HEIGHT) {
-                boolean res = gamePlay.putDisk(player.getDisk(), key - 49);
-                System.out.println(gamePlay);
-                if (res) {
-                    System.out.println("!!! " + player.getName() + " IS WINNER!!!");
-                    return;
+                boolean win = false;
+                try {
+                    win = gamePlay.putDisk(player.getDisk(), key - ASCII_1);
+                } catch (RowIsFull ex) {
+                    System.out.println(ex.getMessage());
+                    continue;
                 }
+
+                System.out.println(gamePlay);
+                if (win) {
+                    System.out.println("!!! " + player.getName() + " IS WINNER!!!");
+                    key = reload(reader);
+                } else if (gamePlay.isFull()) {
+                    System.out.println("!!!DRAW!!!");
+                    key = reload(reader);
+                }
+                player = playerChanger.change();
             }
         }
+    }
+
+    private int reload(NonBlockingReader reader) throws IOException {
+        int key;
+        System.out.println("Press any key for new game or ESC for exit");
+        key = reader.read();
+        if (key != ASCII_ESC) init();
+        return key;
     }
 
     public static void main(String[] args) throws Exception {

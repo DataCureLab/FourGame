@@ -1,4 +1,6 @@
-package com.datacure.fourGame;
+package com.datacure.fourGame.gameplay;
+
+import com.datacure.fourGame.utils.Disk;
 
 import java.util.Arrays;
 
@@ -20,7 +22,7 @@ public class GamePlay {
         Arrays.stream(playingField).forEach(f -> Arrays.fill(f, null));
     }
 
-    public boolean isFill () {
+    public boolean isFull() {
         for (Disk disk : playingField[width -1]) {
             if (disk == null) return false;
         }
@@ -39,7 +41,7 @@ public class GamePlay {
                         (getCountDiagonalL(row, col) >= sizeWin) || (row >= sizeWin - 1 && getCountDown(row, col) >= sizeWin);
             }
         }
-        throw new GameIncorrectIntroduce("This row is full");
+        throw new RowIsFull("This row is full");
     }
 
     private int getCountDown(int row, int col) {
