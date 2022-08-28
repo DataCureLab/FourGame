@@ -3,33 +3,40 @@ package com.datacure;
 import java.util.Arrays;
 
 public class GamePlay {
-    private static final int HEIGHT = 7;
-    private static final int WIDTH = 6;
-    private static final int SIZE_WIN = 4;
+    private final int height;
+    private final int width;
+    private final int sizeWin;
 
-    private Disk[][] playingField = new Disk[WIDTH][HEIGHT];
+    private Disk[][] playingField;
+
+    public GamePlay(int width, int height, int sizeWin) {
+        this.width = width;
+        this.height = height;
+        this.sizeWin = sizeWin;
+        playingField = new Disk[width][height];
+    }
 
     public void clearPlaying() {
         Arrays.stream(playingField).forEach(f -> Arrays.fill(f, null));
     }
 
     public boolean isFill () {
-        for (Disk disk : playingField[WIDTH-1]) {
+        for (Disk disk : playingField[width -1]) {
             if (disk == null) return false;
         }
         return true;
     }
 
     public boolean putDisk(Disk disk, int col) throws GameIncorrectIntroduce {
-        if ((col < 0)||(col > HEIGHT)) {
-            throw new GameIncorrectIntroduce("Incorrect row number : " + col + "[0," + HEIGHT + "]");
+        if ((col < 0)||(col > height)) {
+            throw new GameIncorrectIntroduce("Incorrect row number : " + col + "[0," + height + "]");
         }
         int row;
-        for (row = 0; row < WIDTH; row++) {
+        for (row = 0; row < width; row++) {
             if (playingField[row][col] == null) {
                 playingField[row][col] = disk;
-                return (getCountHorizontal(row, col) >= SIZE_WIN) || (getCountDiagonalR(row, col) >= SIZE_WIN) ||
-                        (getCountDiagonalL(row, col) >= SIZE_WIN) || (row >= SIZE_WIN - 1 && getCountDown(row, col) >= SIZE_WIN);
+                return (getCountHorizontal(row, col) >= sizeWin) || (getCountDiagonalR(row, col) >= sizeWin) ||
+                        (getCountDiagonalL(row, col) >= sizeWin) || (row >= sizeWin - 1 && getCountDown(row, col) >= sizeWin);
             }
         }
         throw new GameIncorrectIntroduce("This row is full");
@@ -58,7 +65,7 @@ public class GamePlay {
                 break;
             }
         }
-        for (int i = col + 1; i < HEIGHT; i++) {
+        for (int i = col + 1; i < height; i++) {
             if (disk.equals(playingField[row][i])) {
                 count++;
             } else {
@@ -72,7 +79,7 @@ public class GamePlay {
         int count = 1;
         Disk disk = playingField[row][col];
 
-        for (int i = 1; (row + i < WIDTH) && (col + i < HEIGHT); i++) {
+        for (int i = 1; (row + i < width) && (col + i < height); i++) {
             if (disk.equals(playingField[row+i][col+i])) {
                 count++;
             } else {
@@ -94,14 +101,14 @@ public class GamePlay {
         int count = 1;
         Disk disk = playingField[row][col];
 
-        for (int i = 1; (row + i < WIDTH) && (col - i >= 0); i++) {
+        for (int i = 1; (row + i < width) && (col - i >= 0); i++) {
             if (disk.equals(playingField[row+i][col-i])) {
                 count++;
             } else {
                 break;
             }
         }
-        for (int i = 1; (row - i >= 0) && (col + i < WIDTH); i++) {
+        for (int i = 1; (row - i >= 0) && (col + i < width); i++) {
             if (disk.equals(playingField[row-i][col+i])) {
                 count++;
             } else {
@@ -114,7 +121,7 @@ public class GamePlay {
 
     public String toString() {
         StringBuilder res = new StringBuilder();
-        for (int i = WIDTH - 1; i >= 0; i--) {
+        for (int i = width - 1; i >= 0; i--) {
             res.append(getPlayingLine(i));
             res.append("\r\n");
         }

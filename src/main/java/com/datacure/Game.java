@@ -1,12 +1,63 @@
 package com.datacure;
 
+import com.datacure.utils.Player;
+import com.datacure.utils.PlayerChanger;
+import com.datacure.utils.PlayerImp;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.NonBlockingReader;
+
+import java.io.IOException;
+
 public class Game {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Loading...");
-        GamePlay gamePlay = new GamePlay();
-        for (int i = 0; i < 5; i++) {
-            gamePlay.putDisk(Disk.RED, 4);
-            System.out.println(gamePlay.getPlayingFieldString());
+    private static final int ASCII_1 = 49;
+    private static final int ASCII_ESC = 27;
+    private static final int PLAY_HEIGHT = 7;
+    private static final int PLAY_WIDTH = 6;
+    private static final int PLAY_SIZE_WIN = 4;
+
+    private PlayerChanger playerChanger;
+    private GamePlay gamePlay;
+
+    public Game(PlayerImp[] players, GamePlay gamePlay) {
+        playerChanger = new PlayerChanger(players);
+        this.gamePlay = gamePlay;
+    }
+
+    private void init() {
+        playerChanger.reset();
+        gamePlay.clearPlaying();
+        System.out.println(gamePlay);
+    }
+
+    public void run(NonBlockingReader reader) throws IOException, GameIncorrectIntroduce {
+        int key = 0;
+        init();
+        while (key != ASCII_ESC) {
+            Player player = playerChanger.change();
+            System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
+            System.out.println();
+            key = reader.read();
+
+            if (key >= ASCII_1 && key <= ASCII_1+PLAY_HEIGHT) {
+                boolean res = gamePlay.putDisk(player.getDisk(), key - 49);
+                System.out.println(gamePlay);
+                if (res) {
+                    System.out.println("!!! " + player.getName() + " IS WINNER!!!");
+                    return;
+                }
+            }
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Terminal terminal = TerminalBuilder.terminal();
+        terminal.enterRawMode();
+        NonBlockingReader reader = terminal.reader();
+
+        System.out.println("Loading...");
+        PlayerImp players[] = {new PlayerImp("Player1", Disk.RED), new PlayerImp("Player2", Disk.GREEN)};
+        Game game = new Game(players, new GamePlay(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
+        game.run(reader);
     }
 }
