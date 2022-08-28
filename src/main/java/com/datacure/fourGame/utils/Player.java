@@ -1,6 +1,6 @@
-package com.datacure.utils;
+package com.datacure.fourGame.utils;
 
-import com.datacure.Disk;
+import com.datacure.fourGame.Disk;
 
 public interface Player {
     String getName();

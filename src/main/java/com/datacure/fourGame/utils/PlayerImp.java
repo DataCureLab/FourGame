@@ -1,7 +1,6 @@
-package com.datacure.utils;
+package com.datacure.fourGame.utils;
 
-import com.datacure.Disk;
-import com.datacure.utils.Player;
+import com.datacure.fourGame.Disk;
 
 public class PlayerImp implements Player {
     private String name;

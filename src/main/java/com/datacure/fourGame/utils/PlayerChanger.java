@@ -1,6 +1,4 @@
-package com.datacure.utils;
-
-import com.datacure.utils.Player;
+package com.datacure.fourGame.utils;
 
 public class PlayerChanger {
     private Player players[];

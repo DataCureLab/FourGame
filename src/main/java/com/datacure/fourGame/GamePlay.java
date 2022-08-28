@@ -1,4 +1,4 @@
-package com.datacure;
+package com.datacure.fourGame;
 
 import java.util.Arrays;
 

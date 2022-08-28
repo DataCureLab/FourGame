@@ -1,8 +1,8 @@
-package com.datacure;
+package com.datacure.fourGame;
 
-import com.datacure.utils.Player;
-import com.datacure.utils.PlayerChanger;
-import com.datacure.utils.PlayerImp;
+import com.datacure.fourGame.utils.PlayerChanger;
+import com.datacure.fourGame.utils.Player;
+import com.datacure.fourGame.utils.PlayerImp;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.NonBlockingReader;

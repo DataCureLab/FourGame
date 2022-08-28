@@ -1,4 +1,4 @@
-package com.datacure;
+package com.datacure.fourGame;
 
 public enum Disk {
     RED, GREEN;

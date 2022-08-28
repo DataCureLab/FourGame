@@ -1,4 +1,4 @@
-package com.datacure;
+package com.datacure.fourGame;
 
 class GameIncorrectIntroduce extends Exception
 {
