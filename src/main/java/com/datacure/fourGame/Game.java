@@ -1,9 +1,10 @@
 package com.datacure.fourGame;
 
+import com.datacure.fourGame.gameplay.GamePlay;
 import com.datacure.fourGame.gameplay.RowIsFull;
 import com.datacure.fourGame.utils.Disk;
 import com.datacure.fourGame.gameplay.GameIncorrectIntroduce;
-import com.datacure.fourGame.gameplay.GamePlay;
+import com.datacure.fourGame.gameplay.GamePlayImp;
 import com.datacure.fourGame.utils.PlayerChanger;
 import com.datacure.fourGame.utils.Player;
 import com.datacure.fourGame.utils.PlayerImp;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class Game {
     private static final int ASCII_1 = 49;
     private static final int ASCII_ESC = 27;
+
     private static final int PLAY_HEIGHT = 7;
     private static final int PLAY_WIDTH = 6;
     private static final int PLAY_SIZE_WIN = 4;
@@ -22,8 +24,8 @@ public class Game {
     private PlayerChanger playerChanger;
     private GamePlay gamePlay;
 
-    public Game(PlayerImp[] players, GamePlay gamePlay) {
-        playerChanger = new PlayerChanger(players);
+    public Game(PlayerChanger playerChanger, GamePlay gamePlay) {
+        this.playerChanger = playerChanger;
         this.gamePlay = gamePlay;
     }
 
@@ -79,8 +81,8 @@ public class Game {
         NonBlockingReader reader = terminal.reader();
 
         System.out.println("Loading...");
-        PlayerImp players[] = {new PlayerImp("Player1", Disk.RED), new PlayerImp("Player2", Disk.GREEN)};
-        Game game = new Game(players, new GamePlay(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
+        Player[] players = {new PlayerImp("Player1", Disk.RED), new PlayerImp("Player2", Disk.GREEN)};
+        Game game = new Game(new PlayerChanger(players), new GamePlayImp(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
         game.run(reader);
     }
 }
