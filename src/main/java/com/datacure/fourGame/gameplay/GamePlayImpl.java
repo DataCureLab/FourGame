@@ -4,14 +4,14 @@ import com.datacure.fourGame.utils.Disk;
 
 import java.util.Arrays;
 
-public class GamePlayImp implements GamePlay {
+public class GamePlayImpl implements GamePlay {
     private final int height;
     private final int width;
     private final int sizeWin;
 
     private Disk[][] playingField;
 
-    public GamePlayImp(int width, int height, int sizeWin) {
+    public GamePlayImpl(int width, int height, int sizeWin) {
         this.width = width;
         this.height = height;
         this.sizeWin = sizeWin;

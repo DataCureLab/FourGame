@@ -4,10 +4,10 @@ import com.datacure.fourGame.gameplay.GamePlay;
 import com.datacure.fourGame.gameplay.RowIsFull;
 import com.datacure.fourGame.utils.Disk;
 import com.datacure.fourGame.gameplay.GameIncorrectIntroduce;
-import com.datacure.fourGame.gameplay.GamePlayImp;
+import com.datacure.fourGame.gameplay.GamePlayImpl;
 import com.datacure.fourGame.utils.PlayerChanger;
 import com.datacure.fourGame.utils.Player;
-import com.datacure.fourGame.utils.PlayerImp;
+import com.datacure.fourGame.utils.PlayerImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.NonBlockingReader;
@@ -85,8 +85,8 @@ public class Game {
         NonBlockingReader reader = terminal.reader();
 
         System.out.println("Loading...");
-        Player[] players = {new PlayerImp("Player1", Disk.RED), new PlayerImp("Player2", Disk.GREEN)};
-        Game game = new Game(new PlayerChanger(players), new GamePlayImp(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
+        Player[] players = {new PlayerImpl("Player1", Disk.RED), new PlayerImpl("Player2", Disk.GREEN)};
+        Game game = new Game(new PlayerChanger(players), new GamePlayImpl(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
         game.run(reader);
     }
 }

@@ -1,6 +1,6 @@
 package com.datacure.fourGame.utils;
 
-public class PlayerImp implements Player {
+public class PlayerImpl implements Player {
     private String name;
     private Disk disk;
 
@@ -12,7 +12,7 @@ public class PlayerImp implements Player {
         return disk;
     }
 
-    public PlayerImp(String name, Disk disk) {
+    public PlayerImpl(String name, Disk disk) {
         this.name = name;
         this.disk = disk;
     }
