@@ -10,6 +10,7 @@ import com.datacure.fourGame.utils.Player;
 import com.datacure.fourGame.utils.PlayerImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp;
 import org.jline.utils.NonBlockingReader;
 import java.io.IOException;
 
@@ -37,13 +38,14 @@ public class Game {
         System.out.println(gamePlay);
     }
 
-    public void run(NonBlockingReader reader) throws IOException, GameIncorrectIntroduce {
+    public void run(Terminal terminal) throws IOException, GameIncorrectIntroduce {
         int key = 0;
+        NonBlockingReader reader = terminal.reader();
         init();
         Player player = playerChanger.change();
 
         while (key != ASCII_ESC) {
-            // TODO it is temporary for terminal Windows, need remove
+            // TODO it is temporary for DUMB terminal, need remove
             if (key != ASCII_LF && key != ASCII_CR) {
                 System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
                 System.out.println();
@@ -58,36 +60,40 @@ public class Game {
                     System.out.println(ex.getMessage());
                     continue;
                 }
-
+                terminal.puts(InfoCmp.Capability.clear_screen);
+                System.out.println();
                 System.out.println(gamePlay);
                 if (win) {
                     System.out.println("!!! " + player.getName() + " IS WINNER!!!");
-                    key = reload(reader);
+                    key = reload(terminal);
                 } else if (gamePlay.isFull()) {
                     System.out.println("!!!DRAW!!!");
-                    key = reload(reader);
+                    key = reload(terminal);
                 }
                 player = playerChanger.change();
             }
         }
     }
 
-    private int reload(NonBlockingReader reader) throws IOException {
+    private int reload(Terminal terminal) throws IOException {
         int key;
         System.out.println("Press any key for new game or ESC for exit");
-        key = reader.read();
-        if (key != ASCII_ESC) init();
+        key = terminal.reader().read();
+        if (key != ASCII_ESC) {
+            terminal.puts(InfoCmp.Capability.clear_screen);
+            System.out.println();
+            init();
+        }
         return key;
     }
 
     public static void main(String[] args) throws Exception {
         Terminal terminal = TerminalBuilder.terminal();
         terminal.enterRawMode();
-        NonBlockingReader reader = terminal.reader();
-
+        terminal.puts(InfoCmp.Capability.clear_screen);
         System.out.println("Loading...");
         Player[] players = {new PlayerImpl("Player1", Disk.RED), new PlayerImpl("Player2", Disk.GREEN)};
         Game game = new Game(new PlayerChanger(players), new GamePlayImpl(PLAY_WIDTH, PLAY_HEIGHT, PLAY_SIZE_WIN));
-        game.run(reader);
+        game.run(terminal);
     }
 }
