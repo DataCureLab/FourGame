@@ -82,6 +82,7 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
         Terminal terminal = TerminalBuilder.terminal();
+        terminal.enterRawMode();
         NonBlockingReader reader = terminal.reader();
 
         System.out.println("Loading...");
