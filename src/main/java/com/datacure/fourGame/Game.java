@@ -16,6 +16,8 @@ import java.io.IOException;
 public class Game {
     private static final int ASCII_1 = 49;
     private static final int ASCII_ESC = 27;
+    private static final int ASCII_LF = 10;
+    private static final int ASCII_CR = 13;
 
     private static final int PLAY_HEIGHT = 7;
     private static final int PLAY_WIDTH = 6;
@@ -41,8 +43,11 @@ public class Game {
         Player player = playerChanger.change();
 
         while (key != ASCII_ESC) {
-            System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
-            System.out.println();
+            // TODO it is temporary for terminal Windows, need remove
+            if (key != ASCII_LF && key != ASCII_CR) {
+                System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
+                System.out.println();
+            }
             key = reader.read();
 
             if (key >= ASCII_1 && key <= ASCII_1+PLAY_HEIGHT) {
@@ -77,7 +82,6 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
         Terminal terminal = TerminalBuilder.terminal();
-        terminal.enterRawMode();
         NonBlockingReader reader = terminal.reader();
 
         System.out.println("Loading...");
