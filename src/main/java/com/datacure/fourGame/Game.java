@@ -52,7 +52,7 @@ public class Game {
             }
             key = reader.read();
 
-            if (key >= ASCII_1 && key <= ASCII_1+PLAY_HEIGHT) {
+            if (key >= ASCII_1 && key < ASCII_1+PLAY_HEIGHT) {
                 boolean win = false;
                 try {
                     win = gamePlay.putDisk(player.getDisk(), key - ASCII_1);
