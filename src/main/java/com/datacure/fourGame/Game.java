@@ -16,7 +16,8 @@ import java.io.IOException;
 
 public class Game {
     private static final int ASCII_1 = 49;
-    private static final int ASCII_ESC = 27;
+    private static final int ASCII_q = 'q';
+    private static final int ASCII_Q = 'Q';
     private static final int ASCII_LF = 10;
     private static final int ASCII_CR = 13;
 
@@ -44,10 +45,10 @@ public class Game {
         init();
         Player player = playerChanger.change();
 
-        while (key != ASCII_ESC) {
+        while (key != ASCII_q && key != ASCII_Q) {
             // TODO it is temporary for DUMB terminal, need remove
             if (key != ASCII_LF && key != ASCII_CR) {
-                System.out.println(player.getName() + " press 1-7 for put disk or ESC to exit");
+                System.out.println(player.getName() + " press 1-7 for put disk or 'q' to exit");
                 System.out.println();
             }
             key = reader.read();
@@ -77,9 +78,9 @@ public class Game {
 
     private int reload(Terminal terminal) throws IOException {
         int key;
-        System.out.println("Press any key for new game or ESC for exit");
+        System.out.println("Press any key for new game or 'q' for exit");
         key = terminal.reader().read();
-        if (key != ASCII_ESC) {
+        if (key != ASCII_q && key != ASCII_Q) {
             terminal.puts(InfoCmp.Capability.clear_screen);
             System.out.println();
             init();
